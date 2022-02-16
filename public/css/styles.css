@@ -1,3 +1,6 @@
+* {
+  font-family: "Fira Code", monospace;
+}
 .square {
   border-radius: 0px;
 }
