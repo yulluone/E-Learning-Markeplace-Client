@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { Context } from "../context";
+import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
@@ -10,30 +12,33 @@ const Register = () => {
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
+
+  const { state } = useContext(Context);
+
+  const { user } = state;
+
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //
-    setLoading(true);
-    const data = await axios
-      .post(`/auth/register`, {
+
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`/auth/register`, {
         name,
         email,
         password,
-      })
-      .then(
-        (response) => {
-          // var result = response.data;
-          // console.log(result);
-          toast.success("Registration Succesful. Please login");
-          setLoading(false);
-        },
-        (error) => {
-          // console.log(error);
-          toast.error(error.response.data);
-          setLoading(false);
-        }
-      );
-    // console.log(data);
+      });
+      //console.log("Register Response", data)
+      toast("Registration successful. Please login.");
+      setLoading(false);
+    } catch (err) {
+      toast(err.response.data);
+      setLoading(false);
+    }
   };
 
   return (

@@ -1,37 +1,56 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { Context } from "../context";
+import { useRouter } from "next/router";
 
 const Login = () => {
   const [email, setEmail] = useState("josh@gmail.com");
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 
+  // state access
+  const { state, dispatch } = useContext(Context);
+  const { user } = state;
+
+  //router
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user !== null) {
+      router.push("/");
+    }
+  }, [user]);
+
+  console.log("STATE", state);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    //
-    setLoading(true);
-    const data = await axios
-      .post(`/auth/login`, {
+
+    try {
+      setLoading(true);
+      const { data } = await axios.post(`/auth/login`, {
         email,
         password,
-      })
-      .then(
-        (response) => {
-          var result = response.data;
-          console.log("LOGIN RESPONSE", result);
+      });
 
-          // setLoading(false);
-        },
-        (error) => {
-          // console.log(error);
-          toast.error(error.response.data);
-          setLoading(false);
-        }
-      );
-    // console.log(data);
+      dispatch({
+        type: "LOGIN",
+        payload: data,
+      });
+      //save in  local storage
+      window.localStorage.setItem("user", JSON.stringify(data));
+      //redirect
+      router.push("/");
+
+      // setLoading(false);
+    } catch (err) {
+      // console.log(error);
+      toast(err.response.data);
+      setLoading(false);
+    }
   };
 
   return (
