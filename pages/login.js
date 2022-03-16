@@ -30,9 +30,9 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      setLoading(true);
+      setLoading(true);``
       const { data } = await axios.post(`/auth/login`, {
-        email,
+        username: email,
         password,
       });
 
@@ -60,7 +60,7 @@ const Login = () => {
       <div className="container col-md-4 offset-md-4 pb-5">
         <form onSubmit={handleSubmit}>
           <input
-            type="email"
+            type=""
             className="form-control mb-4 p-4"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

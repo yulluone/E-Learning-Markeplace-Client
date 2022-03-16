@@ -7,7 +7,7 @@ import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
 const Register = () => {
-  const [name, setName] = useState("josh");
+  const [name, setname] = useState("josh");
   const [email, setEmail] = useState("josh@gmail.com");
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,7 @@ const Register = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(`/auth/register`, {
+        username: email,
         name,
         email,
         password,
@@ -51,7 +52,7 @@ const Register = () => {
             type="text"
             className="form-control mb-4 p-4"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setname(e.target.value)}
             placeholder="Enter name"
             required
           />
