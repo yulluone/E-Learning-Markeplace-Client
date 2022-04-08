@@ -11,47 +11,45 @@ const Login = () => {
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 
-  // // state access
-  // const { state, dispatch } = useContext(Context);
-  // const { user } = state;
+  // state access
+  const { state, dispatch } = useContext(Context);
+  const { user } = state;
 
-  // //router
-  // const router = useRouter();
+  //router
+  const router = useRouter();
 
-  // useEffect(() => {
-  //   if (user !== null) {
-  //     router.push("/");
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user !== null) {
+      router.push("/");
+    }
+  }, [user]);
 
-  // console.log("STATE", state);
+  console.log("STATE", state);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data } = await axios.post(`/auth/login`, {
+      const { data } = await axios.post("http://localhost:8000/auth/login", {
         username: email,
         password,
       });
 
       dispatch({
-        type: "login",
+        type: "LOGIN",
         payload: data,
       });
-      //save in  local storage
-      window.localStorage.setItem("user", JSON.stringify(data));
-      console.log(user);
-      //redirect
-      // router.push("/");
 
+      window.localStorage.setItem("user", JSON.stringify(data))
+
+      console.log(data);
       setLoading(false);
     } catch (err) {
-      console.log(err);
       toast(err.response.data);
       setLoading(false);
     }
+
+    // console.log({user});
   };
 
   return (
