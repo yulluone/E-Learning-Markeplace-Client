@@ -22,8 +22,7 @@ app
       );
     }
 
-    server.use(
-      "/auth/current-user",
+    server.use("/auth/current-user", (req, res) => {
       axios.interceptors.request.use(
         function (config, req) {
           // Do something before request is sent
@@ -36,8 +35,8 @@ app
           // Do something with request error
           return Promise.reject(error);
         }
-      )
-    );
+      );
+    });
 
     server.all("*", (reg, res) => {
       return handle(reg, res);
