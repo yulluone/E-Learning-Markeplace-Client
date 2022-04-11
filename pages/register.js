@@ -8,7 +8,7 @@ import Link from "next/link";
 
 const Register = () => {
   const [name, setname] = useState("josh");
-  const [email, setEmail] = useState("josh@gmail.com");
+  const [email, setEmail] = useState("yullu@gmail.com");
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 

@@ -7,7 +7,7 @@ import { Context } from "../context";
 import { useRouter } from "next/router";
 
 const Login = () => {
-  const [email, setEmail] = useState("josh@gmail.com");
+  const [email, setEmail] = useState("yullu@gmail.com");
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 
@@ -37,12 +37,14 @@ const Login = () => {
 
       dispatch({
         type: "LOGIN",
-        payload: data,
+        payload: data.user,
       });
 
-      window.localStorage.setItem("user", JSON.stringify(data))
+      window.localStorage.setItem("user", JSON.stringify(data.user));
+      window.localStorage.setItem("token", JSON.stringify(data.token));
+      toast(data.message);
+      // console.log(data.message)
 
-      console.log(data);
       setLoading(false);
     } catch (err) {
       toast(err.response.data);

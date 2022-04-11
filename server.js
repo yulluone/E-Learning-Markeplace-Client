@@ -1,7 +1,7 @@
 const express = require("express");
 const next = require("next");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-
+const axios = require("axios");
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -17,10 +17,27 @@ app
         "/auth",
         createProxyMiddleware({
           target: "http://localhost:8000",
-          changeOrigin: true,
+          changeOrigin: false,
         })
       );
     }
+
+    server.use(
+      "/auth/current-user",
+      axios.interceptors.request.use(
+        function (config, req) {
+          // Do something before request is sent
+          window.localStorage.getItem(token);
+          req.token = token;
+          console.log(token);
+          return config;
+        },
+        function (error) {
+          // Do something with request error
+          return Promise.reject(error);
+        }
+      )
+    );
 
     server.all("*", (reg, res) => {
       return handle(reg, res);
