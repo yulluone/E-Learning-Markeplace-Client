@@ -22,24 +22,8 @@ app
       );
     }
 
-    server.use("/auth/current-user", (req, res) => {
-      axios.interceptors.request.use(
-        function (config, req) {
-          // Do something before request is sent
-          window.localStorage.getItem(token);
-          req.token = token;
-          console.log(token);
-          return config;
-        },
-        function (error) {
-          // Do something with request error
-          return Promise.reject(error);
-        }
-      );
-    });
-
-    server.all("*", (reg, res) => {
-      return handle(reg, res);
+    server.all("*", (req, res) => {
+      return handle(req, res);
     });
 
     server.listen(3000, (err) => {

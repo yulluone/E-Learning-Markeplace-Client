@@ -13,7 +13,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu, ItemGroup } = Menu;
 
 const TopNav = () => {
   const [current, setCurrent] = useState("");
@@ -32,6 +32,8 @@ const TopNav = () => {
   const logout = async () => {
     dispatch({ type: "LOGOUT" });
     window.localStorage.removeItem("user");
+    window.localStorage.removeItem("token");
+
     const { data } = await axios.get("/auth/logout");
     toast(data.message);
     router.push("/login");
@@ -79,13 +81,16 @@ const TopNav = () => {
           title={user.name}
           className="float-right"
         >
-          <Item
-            onClick={logout}
-            icon={<LogoutOutlined />}
-            className="float-right"
-          >
-            Logout
-          </Item>
+          <ItemGroup>
+            <Item key="/user">
+              <Link href="/user">
+                <a>Dashboard</a>
+              </Link>
+            </Item>
+            <Item onClick={logout} icon={<LogoutOutlined />}>
+              Logout
+            </Item>
+          </ItemGroup>
         </SubMenu>
       )}
     </Menu>

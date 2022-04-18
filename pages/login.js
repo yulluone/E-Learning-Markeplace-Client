@@ -24,8 +24,6 @@ const Login = () => {
     }
   }, [user]);
 
-  console.log("STATE", state);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -35,23 +33,28 @@ const Login = () => {
         password,
       });
 
-      dispatch({
-        type: "LOGIN",
-        payload: data.user,
-      });
+      if (!data.ok) {
+        toast(data.message);
+        setLoading(false);
+      } else {
+        dispatch({
+          type: "LOGIN",
+          payload: data.user,
+        });
 
-      window.localStorage.setItem("user", JSON.stringify(data.user));
-      window.localStorage.setItem("token", JSON.stringify(data.token));
-      toast(data.message);
-      // console.log(data.message)
+        window.localStorage.setItem("user", JSON.stringify(data.user));
+        window.localStorage.setItem("token", data.token);
 
-      setLoading(false);
+        // redirect
+
+        toast(data.message);
+        setLoading(false);
+        router.push("/");
+      }
     } catch (err) {
       toast(err.response.data);
       setLoading(false);
     }
-
-    // console.log({user});
   };
 
   return (

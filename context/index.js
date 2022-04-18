@@ -8,7 +8,6 @@ const initialState = {
 };
 
 //create context
-
 const Context = createContext();
 
 // root reducer
@@ -62,6 +61,16 @@ const Provider = ({ children }) => {
         });
       }
 
+      return Promise.reject(error);
+    }
+  );
+
+  axios.interceptors.request.use(
+    (config) => {
+      config.headers["Authorization"] = localStorage.getItem("token");
+      return config;
+    },
+    (error) => {
       return Promise.reject(error);
     }
   );
