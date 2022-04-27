@@ -26,7 +26,7 @@ const ForgotPassword = () => {
   //if user is logged in
   useEffect(() => {
     if (user !== null) router.push("/");
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,6 +87,7 @@ const ForgotPassword = () => {
       toast(data.message);
 
       setLoading(false);
+      router.push("/login")
     } catch (err) {
       console.log(err);
       setLoading(False);
@@ -110,7 +111,19 @@ const ForgotPassword = () => {
             disabled={success === true}
             required
           />
-     
+          { email &&
+            <small
+              onClick={(e) => {
+                setEmail(e.target.value);
+                setSuccess(true);
+
+              }}
+
+              className="p-1"
+            >
+              Already Have Code?
+            </small>
+          }
 
           {success && (
             <input
@@ -121,7 +134,6 @@ const ForgotPassword = () => {
             />
           )}
 
-          
           {codeValid && (
             <input
               type="password"
@@ -132,7 +144,6 @@ const ForgotPassword = () => {
             />
           )}
 
-          <br />
           <button
             type="submit"
             className="btn btn-primary btn-block p-2"

@@ -7,7 +7,7 @@ import { Context } from "../context";
 import { useRouter } from "next/router";
 
 const Login = () => {
-  const [email, setEmail] = useState("yullu@gmail.com");
+  const [email, setEmail] = useState("josh@gmail.com");
   const [password, setPassword] = useState("yullujosh");
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +20,7 @@ const Login = () => {
 
   useEffect(() => {
     if (user !== null) {
-      router.push("/");
+      router.push("/user");
     }
   }, [user]);
 
@@ -49,7 +49,7 @@ const Login = () => {
 
         toast(data.message);
         setLoading(false);
-        router.push("/");
+        router.push("/user");
       }
     } catch (err) {
       toast(err.response.data);
@@ -93,6 +93,10 @@ const Login = () => {
           Not yet registered?{" "}
           <Link href="/register">
             <a> Register</a>
+          </Link>
+          <br />
+          <Link href="/forgot-password">
+            <a className="p-3"> Forgot-Password?</a>
           </Link>
         </p>
       </div>

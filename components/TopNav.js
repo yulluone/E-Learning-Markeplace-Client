@@ -7,6 +7,8 @@ import {
   CoffeeOutlined,
   LoginOutlined,
   UserAddOutlined,
+  CarryOutOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -50,6 +52,28 @@ const TopNav = () => {
           <a>App</a>
         </Link>
       </Item>
+
+      {user && user.role && user.role.includes("Instructor") ? (
+        <Item
+          key="/instructor/course/create"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<CarryOutOutlined />}
+        >
+          <Link href="/instructor/course/create">
+            <a>Create Course</a>
+          </Link>
+        </Item>
+      ) : (
+        <Item
+          key="/user/become-instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+        >
+          <Link href="/user/become-instructor">
+            <a>Become Instructor</a>
+          </Link>
+        </Item>
+      )}
 
       {user === null && (
         <>
