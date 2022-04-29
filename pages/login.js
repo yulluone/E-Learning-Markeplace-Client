@@ -64,7 +64,7 @@ const Login = () => {
       <div className="container col-md-4 offset-md-4 pb-5">
         <form onSubmit={handleSubmit}>
           <input
-            type=""
+            type="email"
             className="form-control mb-4 p-4"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

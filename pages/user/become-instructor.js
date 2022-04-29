@@ -5,32 +5,49 @@ import axios from "axios";
 import {
   LoadingOutlined,
   SettingOutlined,
+  SyncOutlined,
   UserSwitchOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import UserRoute from "../../components/route/UserRoute";
+import { useRouter } from "next/router";
+
 
 const BecomeInstructor = () => {
+  const [mpesaNumber, setMpesaNumber] = useState("0742092240");
+  const [mpesaName, setMpesaName] = useState("Joshua Yullu");
+  const [valid, setValid] = useState();
+
+  const router = useRouter();
+
+
   //state
   const [loading, setLoading] = useState(false);
   const {
     state: { user },
   } = useContext(Context);
 
-  const becomeInstructor =  () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setLoading(true);
-    axios.post("/auth/make-instructor")
-    .then (res => {
-      console.log(res)
-      window.location.href = res.data;
-    })
-    .catch(err => {
-      console.log(err.response.data);
-      toast("Stripe Onvoarding failed. Try again");
-      setLoading(false);
-    })
+    axios
+      .post("/auth/become-instructor", {
+        mpesaNumber,
+        mpesaName,
+      })
+      .then((res) => {
+        setLoading(false);
+        console.log(res);
+        router.push("/user")
+        toast(res.data.message)
 
-  }
+      })
+      .catch((err) => {
+        setLoading(false);
+        toast(err.response.data)
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -41,30 +58,47 @@ const BecomeInstructor = () => {
             <div className="pt-4">
               <UserSwitchOutlined className="display-1 pb-3" />
               <br />
-              <h2>Setup payout to publish courses on Edemy</h2>
+              <h2>Setup M-PESA to enable payouts </h2>
               <p className="lead text-warning">
-                Edemy partners with braintree to transfer earning to your bank
-                account
+                Edemy patners with Flutterwave to enable withdrawals to M-PESA
               </p>
 
-              <Button
-                className="mb-3"
-                type="primary"
-                block
-                shape="round"
-                icon={loading ? <LoadingOutlined /> : <SettingOutlined />}
-                size="large"
-                onClick={becomeInstructor}
-                disabled={user && user.role && user.role.includes("instructor") || loading}
-              >
-                {loading ? "Processing..." : "Payout Setup" }
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="number"
+                  className="form-control mb-4 p-4"
+                  value={mpesaNumber}
+                  onChange={(e) => setMpesaNumber(e.target.value)}
+                  placeholder="Enter M-PESA Number"
+                  required
+                />
 
-                </Button>
+                {!mpesaNumber || mpesaNumber.length === 12 ? (
+                  ""
+                ) : (
+                  <p className="text-warning">Use format (2547********)</p>
+                )}
+                <h6 className="text-left text-warning">
+                  Enter name as it appears on Mpesa registration
+                </h6>
 
-              <p className="lead">
-                You will be redirected to braintree to complete onboarding
-                process
-              </p>
+                <input
+                  type="name"
+                  className="form-control mb-4 p-4"
+                  value={mpesaName}
+                  onChange={(e) => setMpesaName(e.target.value)}
+                  placeholder="Enter Name"
+                  required
+                />
+
+                <button
+                  type="submit"
+                  className="btn btn-block btn-primary"
+                  disabled={!(mpesaNumber.length === 12)}
+                >
+                  {loading ? <SyncOutlined spin /> : "Submit"}
+                </button>
+              </form>
             </div>
           </div>
         </div>
