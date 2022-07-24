@@ -1,12 +1,12 @@
-import axios from "axios"
+import axios from "axios";
+import InstructorRoute from "../../../components/routes/InstructorRoute";
 
 const CreateCourse = () => {
-
-    return(
-        <>
-        <h1 className=" jumbotron text-center square ">Create New Course</h1>
-        </>
-    )
-}
+  return (
+    <InstructorRoute>
+      <h1 className=" jumbotron text-center square ">Create New Course</h1>
+    </InstructorRoute>
+  );
+};
 
 export default CreateCourse;

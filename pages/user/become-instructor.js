@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Context } from "../../context";
 import { Button } from "antd";
 import axios from "axios";
@@ -12,14 +12,13 @@ import { toast } from "react-toastify";
 import UserRoute from "../../components/route/UserRoute";
 import { useRouter } from "next/router";
 
-
 const BecomeInstructor = () => {
   const [mpesaNumber, setMpesaNumber] = useState("0742092240");
   const [mpesaName, setMpesaName] = useState("Joshua Yullu");
   const [valid, setValid] = useState();
+  const { state, dispatch } = useContext(Context);
 
   const router = useRouter();
-
 
   //state
   const [loading, setLoading] = useState(false);
@@ -27,24 +26,33 @@ const BecomeInstructor = () => {
     state: { user },
   } = useContext(Context);
 
+  useEffect(() => {
+    if (user === null) {
+      router.push("/login");
+    }
+  }, [user]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("/auth/become-instructor", {
+      .post("/user/make-instructor", {
         mpesaNumber,
         mpesaName,
       })
       .then((res) => {
         setLoading(false);
         console.log(res);
-        router.push("/user")
-        toast(res.data.message)
-
+        router.push("/user");
+        toast(res.data.message);
+        dispatch({
+          type: "LOGIN",
+          payload: res.data.user,
+        });
       })
       .catch((err) => {
         setLoading(false);
-        toast(err.response.data)
+        toast(err);
         console.log(err);
       });
   };
@@ -59,7 +67,7 @@ const BecomeInstructor = () => {
               <UserSwitchOutlined className="display-1 pb-3" />
               <br />
               <h2>Setup M-PESA to enable payouts </h2>
-              <p className="lead text-warning">
+              <p className="lead text-primary">
                 Edemy patners with Flutterwave to enable withdrawals to M-PESA
               </p>
 
@@ -72,13 +80,13 @@ const BecomeInstructor = () => {
                   placeholder="Enter M-PESA Number"
                   required
                 />
-
                 {!mpesaNumber || mpesaNumber.length === 12 ? (
                   ""
                 ) : (
-                  <p className="text-warning">Use format (2547********)</p>
+                  <p className="lead text-warning">Use format (2547********)</p>
                 )}
-                <h6 className="text-left text-warning">
+
+                <h6 className="text-left text-primary">
                   Enter name as it appears on Mpesa registration
                 </h6>
 
@@ -90,6 +98,7 @@ const BecomeInstructor = () => {
                   placeholder="Enter Name"
                   required
                 />
+                <br />
 
                 <button
                   type="submit"

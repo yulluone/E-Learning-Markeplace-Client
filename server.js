@@ -20,6 +20,14 @@ app
           changeOrigin: false,
         })
       );
+
+      server.use(
+        "/user",
+        createProxyMiddleware({
+          target: "http://localhost:8000",
+          changeOrigin: false,
+        })
+      );
     }
 
     server.all("*", (req, res) => {
