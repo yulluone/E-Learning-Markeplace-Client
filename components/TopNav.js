@@ -28,7 +28,6 @@ const TopNav = () => {
   useEffect(() => {
     //make sure we are in the client side(browser mode)
     process.browser && setCurrent(window.location.pathname);
-    console.log(window.location.pathname);
   }, [process.browser && window.location.pathname]);
 
   const logout = async () => {
@@ -42,7 +41,7 @@ const TopNav = () => {
   };
 
   return (
-    <Menu mode="horizontal" selectedKeys={[current]}>
+    <Menu mode="horizontal" selectedKeys={[current]} className="mb-2">
       <Item
         key="/"
         onClick={(e) => setCurrent(e.key)}
@@ -120,6 +119,19 @@ const TopNav = () => {
             </Item>
           </ItemGroup>
         </SubMenu>
+      )}
+
+      {user !== null && user.role && user.role.includes("Instructor") && (
+        <Item
+          key="/instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+          className="float-right"
+        >
+          <Link href="/instructor">
+            <a>Instructor</a>
+          </Link>
+        </Item>
       )}
     </Menu>
   );

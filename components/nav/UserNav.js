@@ -1,10 +1,21 @@
+import {useState, useEffect} from 'react';
 import Link from "next/link";
 
 const UserNav = () => {
+
+    const [current, setCurrent] = useState();
+
+    useEffect(() => {
+      //make sure we are in the client side(browser mode)
+      process.browser && setCurrent(window.location.pathname);
+    }, [process.browser && window.location.pathname]);
+
   return (
-    <div className="nav flex-column nav-pills mt-2">
+    <div className="nav flex-column nav-pills">
       <Link href="/user">
-        <a className="nav-link active">Dashboard</a>
+        <a className={`nav-link ${current === "/user" && "active"}`}>
+          Dashboard
+        </a>
       </Link>
     </div>
   );
