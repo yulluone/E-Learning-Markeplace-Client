@@ -8,6 +8,8 @@ Due to recent events namely the pandemic that caused a halt in physical studies,
 
 This is the client-side. Backend in different repo named edemy-server. 
 
+#NOTE. Name not decided yet. Repo name is not the actual name of the platform.
+
 DEVELOPMENT. 
 
 I decided am not going to overengineer this project because not everything has to be complicated and because I pride myself in simple and functional code.
