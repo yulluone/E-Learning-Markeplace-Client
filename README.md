@@ -3,6 +3,7 @@
 HEY GUYS. 
 
 Welcome to my Fourth year project. 
+This is there client side. Back end in different repo named edemy-server. 
 I am building an E-Learning platform. I have always wanted to work on something to improve the education system in my country because I have always felt that its is lacking in some ways.
 Due to recent events namely the pandemic that caused a halt in physical studies, I felt that this would be the right project. I am learning from currently deployed e-learning platforms to see what works and I am going to try to improve and add functionalities so that my system works for institutions in my country. One of these functionalities is implenting payment systems that are most convenient in Kenya.
 
