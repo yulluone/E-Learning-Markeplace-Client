@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Select, Button, Avatar } from "antd";
+import { Select, Button, Avatar, Badge } from "antd";
 
 const { Option } = Select;
 
@@ -7,6 +7,7 @@ const CourseCreateForm = ({
   handleSubmit,
   handleChange,
   handleImage,
+  handleImageRemove,
   values,
   setValues,
   preview,
@@ -86,19 +87,28 @@ const CourseCreateForm = ({
           <div className="form-group">
             <label className="btn btn-outline-secondary btn-block text-left">
               {uploadButtonText}
-
+              (
               <input
                 type="file"
                 name="image"
                 onChange={handleImage}
                 accept="image/*"
+                disabled={values.loading}
                 hidden
               />
+              )
             </label>
           </div>
         </div>
 
-        {preview && <Avatar width={200} src={preview} />}
+        {preview && (
+          <Badge
+            count="X"
+            onClick={values.loading ? undefined : handleImageRemove}
+          >
+            <Avatar width={200} src={preview} />
+          </Badge>
+        )}
       </div>
 
       <div className="row">

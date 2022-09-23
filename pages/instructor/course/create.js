@@ -15,7 +15,7 @@ const CreateCourse = () => {
     category: "",
     loading: false,
   });
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState({});
   const [preview, setPreview] = useState("");
   const [uploadButtonText, setUploadButtonText] = useState("Image Upload");
 
@@ -37,8 +37,8 @@ const CreateCourse = () => {
           image: url,
         });
         console.log("image uploaded");
-        console.log(data);
         //set image in state
+        setImage(data);
         setValues({ ...values, loading: false });
       } catch (err) {
         console.log(err);
@@ -48,9 +48,27 @@ const CreateCourse = () => {
     });
   };
 
+  const handleImageRemove = async () => {
+    try {
+      setValues({ ...values, loading: true });
+      const res = await axios.post("/instructor/course/remove-image", {
+        image,
+      });
+      setImage({});
+      setPreview("");
+      setUploadButtonText("Image Upload");
+      setValues({ ...values, loading: false });
+    } catch (err) {
+      console.log(err);
+      setValues({ ...values, loading: false });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(values);
+
+    //send course info and image info to backend
   };
 
   return (
@@ -61,6 +79,7 @@ const CreateCourse = () => {
           handleSubmit={handleSubmit}
           handleChange={handleChange}
           handleImage={handleImage}
+          handleImageRemove={handleImageRemove}
           values={values}
           setValues={setValues}
           preview={preview}
@@ -68,6 +87,8 @@ const CreateCourse = () => {
         />
       </div>
       <pre>{JSON.stringify(values, null, 4)}</pre>
+      <hr />
+      <pre>{JSON.stringify(image, null, 4)}</pre>
     </InstructorRoute>
   );
 };
