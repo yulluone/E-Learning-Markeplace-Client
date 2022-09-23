@@ -9,7 +9,7 @@ import {
   UserSwitchOutlined,
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
-import UserRoute from "../../components/route/UserRoute";
+import UserRoute from "../../components/routes/UserRoute";
 import { useRouter } from "next/router";
 
 const BecomeInstructor = () => {
@@ -36,7 +36,7 @@ const BecomeInstructor = () => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("/user/make-instructor", {
+      .post("/instructor/make-instructor", {
         mpesaNumber,
         mpesaName,
       })
@@ -80,11 +80,11 @@ const BecomeInstructor = () => {
                   placeholder="Enter M-PESA Number"
                   required
                 />
-                {!mpesaNumber || mpesaNumber.length === 12 ? (
-                  ""
-                ) : (
-                  <p className="lead text-warning">Use format (2547********)</p>
-                )}
+                {mpesaNumber && mpesaNumber.length === 12 &&
+                  <small className="lead text-warning mt-0">
+                    Use format (2547********)
+                  </small>
+                }
 
                 <h6 className="text-left text-primary">
                   Enter name as it appears on Mpesa registration

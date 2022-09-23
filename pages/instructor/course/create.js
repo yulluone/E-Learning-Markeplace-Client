@@ -2,25 +2,50 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import InstructorRoute from "../../../components/routes/InstructorRoute";
 import CourseCreateForm from "../../../components/forms/courseCreateForm";
+import Resizer from "react-image-file-resizer";
+import { toast } from "react-toastify";
 
 const CreateCourse = () => {
   const [values, setValues] = useState({
     name: "",
     description: "",
-    price: "9.99",
+    price: "999",
     uploading: false,
     paid: true,
     category: "",
-    imagePreview: "",
-    loading: "",
+    loading: false,
   });
+  const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("");
+  const [uploadButtonText, setUploadButtonText] = useState("Image Upload");
 
   const handleChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleImage = () => {
-    //
+  const handleImage = (e) => {
+    const file = e.target.files[0];
+    setPreview(window.URL.createObjectURL(file));
+    setUploadButtonText(file.name);
+    setValues({ ...values, loading: true });
+
+    //resizeuri
+
+    Resizer.imageFileResizer(file, 720, 500, "JPEG", 100, 0, async (url) => {
+      try {
+        let { data } = await axios.post("/instructor/course/upload-image", {
+          image: url,
+        });
+        console.log("image uploaded");
+        console.log(data);
+        //set image in state
+        setValues({ ...values, loading: false });
+      } catch (err) {
+        console.log(err);
+        setValues({ ...values, loading: false });
+        toast("Image Upload failed. Try again later.");
+      }
+    });
   };
 
   const handleSubmit = (e) => {
@@ -38,7 +63,8 @@ const CreateCourse = () => {
           handleImage={handleImage}
           values={values}
           setValues={setValues}
-          category = {category}
+          preview={preview}
+          uploadButtonText={uploadButtonText}
         />
       </div>
       <pre>{JSON.stringify(values, null, 4)}</pre>

@@ -1,7 +1,6 @@
 const express = require("express");
 const next = require("next");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const axios = require("axios");
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -22,7 +21,7 @@ app
       );
 
       server.use(
-        "/user",
+        "/instructor",
         createProxyMiddleware({
           target: "http://localhost:8000",
           changeOrigin: false,

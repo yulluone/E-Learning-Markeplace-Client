@@ -34,10 +34,10 @@ const ForgotPassword = () => {
 
     if (!success) {
       try {
-        const { data } = await axios.post(
-          "http://localhost:8000/auth/forgot-password",
-          { email, success }
-        );
+        const { data } = await axios.post("/auth/forgot-password", {
+          email,
+          success,
+        });
         setSuccess(true);
         setLoading(false);
         toast("Check your email for the secret code");
@@ -48,10 +48,11 @@ const ForgotPassword = () => {
     }
     if (success === true) {
       try {
-        const { data } = await axios.post(
-          "http://localhost:8000/auth/forgot-password",
-          { code, email, success }
-        );
+        const { data } = await axios.post("/auth/forgot-password", {
+          code,
+          email,
+          success,
+        });
 
         if (!data.codeValid) {
           toast(data.message);
@@ -87,7 +88,7 @@ const ForgotPassword = () => {
       toast(data.message);
 
       setLoading(false);
-      router.push("/login")
+      router.push("/login");
     } catch (err) {
       console.log(err);
       setLoading(False);
@@ -111,19 +112,17 @@ const ForgotPassword = () => {
             disabled={success === true}
             required
           />
-          { email &&
+          {email && (
             <small
               onClick={(e) => {
                 setEmail(e.target.value);
                 setSuccess(true);
-
               }}
-
               className="p-1"
             >
               Already Have Code?
             </small>
-          }
+          )}
 
           {success && (
             <input

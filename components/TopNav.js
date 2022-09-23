@@ -66,11 +66,11 @@ const TopNav = () => {
 
       {user !== null && user.role && !user.role.includes("Instructor") && (
         <Item
-          key="/user/become-instructor"
+          key="/instructor/become-instructor"
           onClick={(e) => setCurrent(e.key)}
           icon={<TeamOutlined />}
         >
-          <Link href="/user/become-instructor">
+          <Link href="/instructor/become-instructor">
             <a>Become Instructor</a>
           </Link>
         </Item>
