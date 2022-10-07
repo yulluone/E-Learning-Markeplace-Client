@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import InstructorRoute from "../../../components/routes/InstructorRoute";
-import CourseCreateForm from "../../../components/forms/courseCreateForm";
+import CourseCreateForm from "../../../components/forms/CourseCreateForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 
