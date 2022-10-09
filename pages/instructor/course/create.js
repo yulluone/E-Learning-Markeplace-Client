@@ -4,6 +4,7 @@ import InstructorRoute from "../../../components/routes/InstructorRoute";
 import CourseCreateForm from "../../../components/forms/CourseCreateForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
+import router from "next/router";
 
 const CreateCourse = () => {
   const [values, setValues] = useState({
@@ -64,9 +65,18 @@ const CreateCourse = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(values);
+    try {
+      const { data } = await axios.post("/instructor/course", {
+        ...values,
+        image,
+      });
+      toast("Great! Now you can start adding lessons");
+      router.push("/instructor");
+    } catch (err) {
+      toast(err.response.data);
+    }
 
     //send course info and image info to backend
   };

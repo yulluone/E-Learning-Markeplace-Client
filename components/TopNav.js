@@ -41,14 +41,14 @@ const TopNav = () => {
   };
 
   return (
-    <Menu mode="horizontal" selectedKeys={[current]} className="mb-2">
+    <Menu mode="horizontal" selectedKeys={[current]} className="d-block mb-2">
       <Item
         key="/"
         onClick={(e) => setCurrent(e.key)}
         icon={<AppstoreOutlined />}
       >
         <Link href="/">
-          <a>App</a>
+          <a>Home</a>
         </Link>
       </Item>
 
@@ -102,11 +102,24 @@ const TopNav = () => {
         </>
       )}
 
+      {user !== null && user.role && user.role.includes("Instructor") && (
+        <Item
+          key="/instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+          className=""
+        >
+          <Link href="/instructor">
+            <a>Instructor</a>
+          </Link>
+        </Item>
+      )}
+
       {user !== null && (
         <SubMenu
           icon={<CoffeeOutlined />}
           title={user.name}
-          className="float-right"
+          style={{ float: "right" }}
         >
           <ItemGroup>
             <Item key="/user">
@@ -119,19 +132,6 @@ const TopNav = () => {
             </Item>
           </ItemGroup>
         </SubMenu>
-      )}
-
-      {user !== null && user.role && user.role.includes("Instructor") && (
-        <Item
-          key="/instructor"
-          onClick={(e) => setCurrent(e.key)}
-          icon={<TeamOutlined />}
-          className="float-right"
-        >
-          <Link href="/instructor">
-            <a>Instructor</a>
-          </Link>
-        </Item>
       )}
     </Menu>
   );
