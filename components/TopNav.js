@@ -119,7 +119,7 @@ const TopNav = () => {
         <SubMenu
           icon={<CoffeeOutlined />}
           title={user.name}
-          style={{ float: "right" }}
+          className="float-right"
         >
           <ItemGroup>
             <Item key="/user">

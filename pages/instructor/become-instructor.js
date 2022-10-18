@@ -80,11 +80,11 @@ const BecomeInstructor = () => {
                   placeholder="Enter M-PESA Number"
                   required
                 />
-                {mpesaNumber && mpesaNumber.length === 12 &&
+                {mpesaNumber && mpesaNumber.length !== 12 && (
                   <small className="lead text-warning mt-0">
                     Use format (2547********)
                   </small>
-                }
+                )}
 
                 <h6 className="text-left text-primary">
                   Enter name as it appears on Mpesa registration
@@ -103,7 +103,7 @@ const BecomeInstructor = () => {
                 <button
                   type="submit"
                   className="btn btn-block btn-primary"
-                  disabled={!(mpesaNumber.length === 12)}
+                  disabled={mpesaNumber.length !== 12}
                 >
                   {loading ? <SyncOutlined spin /> : "Submit"}
                 </button>
