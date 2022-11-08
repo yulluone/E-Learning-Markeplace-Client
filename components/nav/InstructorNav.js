@@ -1,8 +1,7 @@
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 const InstructorNav = () => {
-
   const [current, setCurrent] = useState();
 
   useEffect(() => {
@@ -12,12 +11,20 @@ const InstructorNav = () => {
 
   return (
     <div className="nav flex-column nav-pills mt-2">
-      <Link href="/instructor">
-        <a className={`nav-link ${ current === "/instructor" && "active" }`}>Dashboard</a>
+      <Link
+        href="/studio"
+        className={`nav-link ${current === "/studio" && "active"}`}
+      >
+        Dashboard
       </Link>
 
-      <Link href="/instructor/course/create">
-        <a className={`nav-link ${ current === "/instructor/course/create" && "active" }`}>Course Create</a>
+      <Link
+        href="/studio/course/create"
+        className={`nav-link ${
+          current === "/studio/course/create" && "active"
+        }`}
+      >
+        Course Create
       </Link>
     </div>
   );

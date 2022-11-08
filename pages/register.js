@@ -84,10 +84,7 @@ const Register = () => {
           </button>
         </form>
         <p className="text-center p-3">
-          Already registered?{" "}
-          <Link href="/login">
-            <a> Login</a>
-          </Link>
+          Already registered? <Link href="/login">Login</Link>
         </p>
       </div>
     </>

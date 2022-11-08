@@ -1,18 +1,28 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import InstructorRoute from "../../components/routes/InstructorRoute";
 import { Avatar } from "antd";
 import Link from "next/link";
+import { Context } from "../../context";
+
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
 
 const InstructorIndex = () => {
   const [courses, setCourses] = useState([]);
 
+  const {
+    state: { user },
+  } = useContext(Context);
+
   const router = useRouter;
+  const data = router.query;
 
   useEffect(() => {
-    console.log(router);
+    // if (!router.isReady) return;
+    console.log("DATA");
+    console.log(data);
+
     loadCourses();
   }, []);
 
@@ -26,12 +36,12 @@ const InstructorIndex = () => {
   return (
     <InstructorRoute>
       <h1 className=" jumbotron text-center square ">Instructor Dashboard</h1>
-      {/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
+      <pre>{JSON.stringify(courses, null, 4)}</pre>
 
       {courses &&
         courses.map((course) => (
           <>
-            <div class="media pt-2">
+            <div className="media pt-2">
               <Avatar
                 size={80}
                 src={`https://ipfs.filebase.io/ipfs/${course.image.cid}`}
@@ -41,12 +51,14 @@ const InstructorIndex = () => {
                 <div className="row">
                   <div className="col">
                     <Link
-                      href="/instrutor/course/view/[slug]"
-                      as={`/instrutor/course/view/${course.slug}`}
+                      href={{
+                        pathname: "/studio/course/view/[slug]",
+                        query: { slug: course.slug },
+                      }}
                     >
-                      <a className=" mt-2  text-primary">
-                        <h5 className="pt-2">{course.name}</h5>
-                      </a>
+                      <h5 className=" mt-2  text-primary pt-2">
+                        {course.name}
+                      </h5>
                     </Link>
 
                     <p style={{ marginTop: "-10px" }}>
@@ -67,7 +79,7 @@ const InstructorIndex = () => {
                       </p>
                     )}
                   </div>
-                  <div class="col-md-3 mt-3 text-center">
+                  <div className="col-md-3 mt-3 text-center">
                     {course.published ? (
                       <div>
                         <CheckCircleOutlined className="h5 pointer text-success " />

@@ -1,4 +1,4 @@
-  import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
@@ -90,13 +90,10 @@ const Login = () => {
           </button>
         </form>
         <p className="text-center p-3">
-          Not yet registered?{" "}
-          <Link href="/register">
-            <a> Register</a>
-          </Link>
+          Not yet registered? <Link href="/register">Register</Link>
           <br />
-          <Link href="/forgot-password">
-            <a className="p-3"> Forgot-Password?</a>
+          <Link href="/forgot-password " className="p-3">
+            Forgot-Password?
           </Link>
         </p>
       </div>

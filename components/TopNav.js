@@ -47,32 +47,26 @@ const TopNav = () => {
         onClick={(e) => setCurrent(e.key)}
         icon={<AppstoreOutlined />}
       >
-        <Link href="/">
-          <a>Home</a>
-        </Link>
+        <Link href="/">Home</Link>
       </Item>
 
       {user !== null && user.role && user.role.includes("Instructor") && (
         <Item
-          key="/instructor/course/create"
+          key="/studio/course/create"
           onClick={(e) => setCurrent(e.key)}
           icon={<CarryOutOutlined />}
         >
-          <Link href="/instructor/course/create">
-            <a>Create Course</a>
-          </Link>
+          <Link href="/studio/course/create">Create Course</Link>
         </Item>
       )}
 
       {user !== null && user.role && !user.role.includes("Instructor") && (
         <Item
-          key="/instructor/become-instructor"
+          key="/studio/become-instructor"
           onClick={(e) => setCurrent(e.key)}
           icon={<TeamOutlined />}
         >
-          <Link href="/instructor/become-instructor">
-            <a>Become Instructor</a>
-          </Link>
+          <Link href="/studio/become-instructor">Become Instructor</Link>
         </Item>
       )}
 
@@ -84,9 +78,7 @@ const TopNav = () => {
             onClick={(e) => setCurrent(e.key)}
             icon={<LoginOutlined />}
           >
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
+            <Link href="/login">Login</Link>
           </Item>
 
           <Item
@@ -95,23 +87,19 @@ const TopNav = () => {
             onClick={(e) => setCurrent(e.key)}
             icon={<UserAddOutlined />}
           >
-            <Link href="/register">
-              <a>Register</a>
-            </Link>
+            <Link href="/register">Register</Link>
           </Item>
         </>
       )}
 
       {user !== null && user.role && user.role.includes("Instructor") && (
         <Item
-          key="/instructor"
+          key="/studio"
           onClick={(e) => setCurrent(e.key)}
           icon={<TeamOutlined />}
           className=""
         >
-          <Link href="/instructor">
-            <a>Instructor</a>
-          </Link>
+          <Link href="/studio">Instructor</Link>
         </Item>
       )}
 
@@ -123,9 +111,7 @@ const TopNav = () => {
         >
           <ItemGroup>
             <Item key="/user">
-              <Link href="/user">
-                <a>Dashboard</a>
-              </Link>
+              <Link href="/user">Dashboard</Link>
             </Item>
             <Item onClick={logout} icon={<LogoutOutlined />}>
               Logout

@@ -36,7 +36,7 @@ const BecomeInstructor = () => {
     e.preventDefault();
     setLoading(true);
     axios
-      .post("/instructor/make-instructor", {
+      .post("/studio/make-instructor", {
         mpesaNumber,
         mpesaName,
       })

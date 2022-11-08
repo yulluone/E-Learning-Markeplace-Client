@@ -11,7 +11,7 @@ const UserIndex = () => {
     <UserRoute>
       <h1 className="jumbotron text-center square">User Dashboard</h1>
     </UserRoute>
-  );
+  );  
 };
 
 export default UserIndex;
