@@ -5,12 +5,26 @@ import axios from "axios";
 import { Avatar, Tooltip, Button, Modal } from "antd";
 import { CheckOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
+import AddLessonForm from "../../../../components/forms/AddLessonForm";
 
 const CourseView = () => {
   const router = useRouter();
   const { slug } = router.query;
   const [course, setCourse] = useState();
   const [visible, setVisible] = useState(false);
+  const [values, setValues] = useState({
+    title: "",
+    content: "",
+    video: {},
+  });
+  const [uploading, setUploading] = useState(false);
+
+  //Funcions for add lessson
+
+  const handleAddLesson = (e) => {
+    e.preventDefault();
+    console.log(values);
+  };
 
   const loadCourse = async () => {
     try {
@@ -89,7 +103,12 @@ const CourseView = () => {
                 onCancel={() => setVisible(false)}
                 footer={null}
               >
-                show add lesson form
+                <AddLessonForm
+                  values={values}
+                  setValues={setValues}
+                  handleAddLesson={handleAddLesson}
+                  uploading={uploading}
+                />
               </Modal>
             </div>
           </div>
