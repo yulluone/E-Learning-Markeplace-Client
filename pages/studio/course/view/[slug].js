@@ -18,6 +18,7 @@ const CourseView = () => {
     video: {},
   });
   const [uploading, setUploading] = useState(false);
+  const [uploadButtonText, setUploadButtonText] = useState("Upload Video");
 
   //Funcions for add lessson
 
@@ -34,6 +35,14 @@ const CourseView = () => {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleVideo = async (e) => {
+    const file = e.target.files[0];
+    setUploadButtonText(file.name);
+
+    const { data } = await axios.post("/instructor/course/upload-video", file);
+    console.log(data);
   };
 
   useEffect(() => {
@@ -108,6 +117,9 @@ const CourseView = () => {
                   setValues={setValues}
                   handleAddLesson={handleAddLesson}
                   uploading={uploading}
+                  uploadButtonText={uploadButtonText}
+                  setUploadButtonText={setUploadButtonText}
+                  handleVideo={handleVideo}
                 />
               </Modal>
             </div>
