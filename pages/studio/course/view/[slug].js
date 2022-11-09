@@ -4,6 +4,7 @@ import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from "axios";
 import { Avatar, Tooltip } from "antd";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
+import ReactMarkdown from "react-markdown";
 
 const CourseView = () => {
   const router = useRouter();
@@ -45,9 +46,9 @@ const CourseView = () => {
                   <div className="col">
                     <h5 className="mt-2 text-primary">{course.name}</h5>
                     <p style={{ marginTop: "-10px" }}>
-                      {course.lessons && course.lessons.length}
+                      {course.lessons && course.lessons.length} lessons
                     </p>
-                    <p style={{ marginTop: "-13px", fontSize: "10px" }}>
+                    <p style={{ marginTop: "-13px", fontSize: "15px" }}>
                       {course.category}
                     </p>
                   </div>
@@ -60,6 +61,12 @@ const CourseView = () => {
                     </Tooltip>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="row">
+              <div class="col">
+                <ReactMarkdown>{course.description}</ReactMarkdown>
               </div>
             </div>
           </div>
