@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, Progress } from "antd";
 
 const AddLessonForm = ({
   values,
@@ -7,7 +7,8 @@ const AddLessonForm = ({
   uploading,
   uploadButtonText,
   handleVideo,
-}) => {  
+  progress,
+}) => {
   return (
     <div className="container pt-3">
       <form onSubmit={handleAddLesson}>
@@ -33,6 +34,11 @@ const AddLessonForm = ({
         {uploadButtonText}
         <input type="file" accept="video/*" hidden onChange={handleVideo} />
       </label>
+      <Progress
+        className="d-flex justify-content-center"
+        percent={progress}
+        steps={10}
+      />
       <Button
         onClick={handleAddLesson}
         className="col mt-3"

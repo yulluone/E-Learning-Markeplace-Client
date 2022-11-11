@@ -49,7 +49,7 @@ const CourseView = () => {
       const videoData = new FormData();
       videoData.append("video", file);
 
-      //save progress bar and send video as form data to backend
+      // save progress bar and send video as form data to backend
       const { data } = await axios.post(
         "/instructor/course/video-upload",
         videoData,
@@ -66,6 +66,7 @@ const CourseView = () => {
         ...values,
         video: data,
       });
+      setUploading(false);
     } catch (err) {
       setUploading(false);
       console.log(err);
@@ -117,7 +118,7 @@ const CourseView = () => {
             </div>
 
             <div className="row">
-              <div class="col">
+              <div className="col">
                 <ReactMarkdown>{course.description}</ReactMarkdown>
               </div>
             </div>
@@ -148,6 +149,7 @@ const CourseView = () => {
                   uploadButtonText={uploadButtonText}
                   setUploadButtonText={setUploadButtonText}
                   handleVideo={handleVideo}
+                  progress={progress}
                 />
               </Modal>
             </div>
