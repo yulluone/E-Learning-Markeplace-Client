@@ -7,7 +7,7 @@ const AddLessonForm = ({
   uploading,
   uploadButtonText,
   handleVideo,
-}) => {
+}) => {  
   return (
     <div className="container pt-3">
       <form onSubmit={handleAddLesson}>
