@@ -78,10 +78,9 @@ const CourseView = () => {
   const handleRemoveVideo = async () => {
     try {
       setUploading(true);
-      const { data } = await axios.post(
-        "/instructor/course/video-remove",
-        values.video
-      );
+      const { data } = await axios.post("/instructor/course/video-remove", {
+        video: values.video,
+      });
       console.log(data);
       setValues({
         ...values,
@@ -92,6 +91,7 @@ const CourseView = () => {
     } catch (err) {
       console.log(err);
       toast("error removing video");
+      setUploading(false);
     }
   };
 
