@@ -8,7 +8,7 @@ import { Provider } from "../context";
 
 function MyApp({ Component, pageProps }) {
   return (
-    <Provider>
+    <Provider className = "bg-light bg-gradient-lightk">
       <ToastContainer position="top-center" />
       <TopNav />
       <Component {...pageProps} />

@@ -140,13 +140,18 @@ const CourseView = () => {
                     <p style={{ marginTop: "-10px" }}>
                       {course.lessons && course.lessons.length} lessons
                     </p>
-                    <p style={{ marginTop: "-13px", fontSize: "15px" }}>
+                    <p style={{ marginTop: "-13px", Size: "15px" }}>
                       {course.category}
                     </p>
                   </div>
                   <div className="d-flex pt-4">
                     <Tooltip title="Edit">
-                      <EditOutlined className="h5 pointer text-warning mr-4" />
+                      <EditOutlined
+                        onClick={() => {
+                          router.push(`/studio/course/edit/${slug}`);
+                        }}
+                        className="h5 pointer text-warning mr-4"
+                      />
                     </Tooltip>
                     <Tooltip title="Publish">
                       <CheckOutlined className="h5 pointer text-danger mr-4" />

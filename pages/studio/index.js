@@ -31,12 +31,12 @@ const InstructorIndex = () => {
     setCourses(data);
   };
 
-  const myStyle = { marginTop: "-15px", fontSize: "10px" };
+  const myStyle = { marginTop: "-15px", fontSize: "12px" };
 
   return (
     <InstructorRoute>
       <h1 className=" jumbotron text-center square ">Instructor Dashboard</h1>
-      <pre>{JSON.stringify(courses, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(courses, null, 4)}</pre> */}
 
       {courses &&
         courses.map((course) => (
