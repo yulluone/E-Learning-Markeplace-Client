@@ -5,6 +5,9 @@ import CourseCreateForm from "../../../../components/forms/CourseCreateForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { List, Avatar } from "antd";
+
+const { Item } = List;
 
 const CourseEdit = () => {
   const [values, setValues] = useState({
@@ -15,6 +18,7 @@ const CourseEdit = () => {
     paid: true,
     category: "",
     loading: false,
+    lessons: [],
   });
   const router = useRouter();
   const [image, setImage] = useState({});
@@ -37,6 +41,7 @@ const CourseEdit = () => {
         description: data.description,
         price: data.price,
         paid: data.paid,
+        lessons: data.lessons,
       });
       setImage(data.image);
     } catch (err) {
@@ -55,8 +60,8 @@ const CourseEdit = () => {
         handleImageRemove();
       }
     } catch (err) {
-					console.log(err);
-					toast(err)
+      console.log(err);
+      toast(err);
     }
 
     const file = e.target.files[0];
@@ -138,6 +143,24 @@ const CourseEdit = () => {
       {/* <pre>{JSON.stringify(values, null, 4)}</pre>
       <hr />
       <pre>{JSON.stringify(image, null, 4)}</pre> */}
+<hr	/>
+      <div className="row pb-5">
+        <div className="col lesson-list">
+          <h4>{values && values.lessons && values.lessons.length} Lessons</h4>
+          <List
+            itemLayout="horizontal"
+            dataSource={values && values.lessons}
+            renderItem={(item, index) => (
+              <Item>
+                <Item.Meta
+                  avatar={<Avatar>{index}</Avatar>}
+                  title={item.title}
+                ></Item.Meta>
+              </Item>
+            )}
+          ></List>
+        </div>
+      </div>
     </InstructorRoute>
   );
 };
