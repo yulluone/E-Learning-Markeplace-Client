@@ -30,7 +30,15 @@ const CourseEdit = () => {
     try {
       if (!slug) return;
       const { data } = await axios.get(`/instructor/course/${slug}`);
-      setValues(data);
+      setValues({
+        ...values,
+        name: data.name,
+        category: data.category,
+        description: data.description,
+        price: data.price,
+        paid: data.paid,
+      });
+      setImage(data.image);
     } catch (err) {
       console.log(err);
       toast("failed to load course");
@@ -42,7 +50,14 @@ const CourseEdit = () => {
   };
 
   const handleImage = (e) => {
-    handleImageRemove();
+    try {
+      if (image !== null) {
+        handleImageRemove();
+      }
+    } catch (err) {
+					console.log(err);
+					toast(err)
+    }
 
     const file = e.target.files[0];
     setPreview(window.URL.createObjectURL(file));
@@ -75,8 +90,8 @@ const CourseEdit = () => {
         image,
       });
       setImage({});
-      // setPreview("");
-      // setUploadButtonText("Image Upload");
+      setPreview("");
+      setUploadButtonText("Upload Image");
       setValues({ ...values, loading: false });
       toast("Image removed. Uploading new image");
     } catch (err) {
@@ -87,18 +102,20 @@ const CourseEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // setValues({ ...values, loading: true });
     try {
-      const { data } = await axios.put(`/instructor/course/${slug}`, {
+      const { data } = await axios.put(`/instructor/course/edit/${slug}`, {
         ...values,
         image,
       });
-      toast("Great! Now you can start adding lessons");
-      router.push("/studio");
+      setValues(data);
+      // setValues({ ...values, loading: false });
+      toast("Great! Course updated");
+      // router.push("/studio");
     } catch (err) {
+      // setValues({ ...values, loading: false });
       toast(err.response.data);
     }
-
-    //send course info and image info to backend
   };
 
   return (
@@ -115,6 +132,7 @@ const CourseEdit = () => {
           preview={preview}
           uploadButtonText={uploadButtonText}
           editPage={true}
+          image={image}
         />
       </div>
       {/* <pre>{JSON.stringify(values, null, 4)}</pre>

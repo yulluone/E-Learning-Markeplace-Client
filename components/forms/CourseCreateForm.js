@@ -13,6 +13,7 @@ const CourseCreateForm = ({
   preview,
   uploadButtonText,
   editPage = false,
+  image,
 }) => {
   const children = [];
   for (let i = 999; i <= 9999; i += 200) {
@@ -111,13 +112,17 @@ const CourseCreateForm = ({
           </Badge>
         )}
 
-        {editPage && values.image && (
+        {editPage && image && (
           // <pre> {JSON.stringify(values.image)}</pre>
-
-          <Avatar
-            size={40}
-            src={`https://ipfs.filebase.io/ipfs/${values.image.cid}`}
-          />
+          <Badge
+            count="x"
+            onClick={values.loading ? undefined : handleImageRemove}
+          >
+            <Avatar
+              size={40}
+              src={`https://ipfs.filebase.io/ipfs/${image.cid}`}
+            />
+          </Badge>
         )}
       </div>
 

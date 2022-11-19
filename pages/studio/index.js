@@ -44,7 +44,11 @@ const InstructorIndex = () => {
             <div className="media pt-2">
               <Avatar
                 size={80}
-                src={`https://ipfs.filebase.io/ipfs/${course.image.cid}`}
+                src={
+                  course.image
+                    ? `https://ipfs.filebase.io/ipfs/${course.image.cid}`
+                    : "/course.jpg"
+                }
               />
 
               <div className="media-body pl-2">
