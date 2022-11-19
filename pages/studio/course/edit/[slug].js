@@ -123,6 +123,32 @@ const CourseEdit = () => {
     }
   };
 
+  const handleDrag = (e, index) => {
+    // console.log("DRAGING INDEX =>	", index);
+    e.dataTransfer.setData("itemIndex", index);
+	};
+	
+
+  const handleDrop = async (e, index) => {
+    // console.log("DROPPED AT INDEX => ", index);
+    const itemIndex = e.dataTransfer.getData("itemIndex");
+    const dropPosition = index;
+
+    let allLessons = values.lessons;
+    let item = allLessons[itemIndex];
+    allLessons.splice(itemIndex, 1); //remove dragged	item from its original position
+    allLessons.splice(dropPosition, 0, item); //insert dragged item in new position
+
+			setValues({ ...values, lessons: allLessons }); //update lessons arrar in state
+			
+			//save lesson rearraangement in db
+			const { data } = await axios.put(`/instructor/course/edit/${slug}`, {
+        ...values,
+        image,
+			});
+			toast("Great! Lessons rearranged");
+  };
+
   return (
     <InstructorRoute>
       <h1 className=" jumbotron text-center square ">Create New Course</h1>
@@ -143,15 +169,20 @@ const CourseEdit = () => {
       {/* <pre>{JSON.stringify(values, null, 4)}</pre>
       <hr />
       <pre>{JSON.stringify(image, null, 4)}</pre> */}
-<hr	/>
+      <hr />
       <div className="row pb-5">
         <div className="col lesson-list">
           <h4>{values && values.lessons && values.lessons.length} Lessons</h4>
           <List
+            onDragOver={(e) => e.preventDefault()}
             itemLayout="horizontal"
             dataSource={values && values.lessons}
             renderItem={(item, index) => (
-              <Item>
+              <Item
+                draggable
+                onDragStart={(e) => handleDrag(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+              >
                 <Item.Meta
                   avatar={<Avatar>{index}</Avatar>}
                   title={item.title}
