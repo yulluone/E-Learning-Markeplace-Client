@@ -31,16 +31,19 @@ const UpdateLessonForm = ({
           placeholder="Content"
         ></textarea>
       </form>
+      <div className="d-flex justify-content-between">
+        <span className="pt-3 badge">preview toggle</span>
+      </div>
+      {current.video && current.video.Location && (
+        <div className="pt-2 d-flex justify-content-center">
+          show video player on react player
+        </div>
+      )}
       <div className="d-flex justify-content-center">
         <label className="btn btn-dark btn-block text-lft mt-3">
           {uploadVideoButtonText}
           <input type="file" accept="video/*" hidden onChange={handleVideo} />
         </label>
-        {current.video && current.video.Location && (
-          <div className="pt-2 d-flex justify-content-center">
-            show video player on react player
-          </div>
-        )}
       </div>
       {progress > 0 && (
         <Progress
