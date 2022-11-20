@@ -63,6 +63,7 @@ const CourseView = () => {
       //video to formData
       const videoData = new FormData();
       videoData.append("video", file);
+      videoData.append("instructorId", course.instructor._id);
 
       // save progress bar and send video as form data to backend
       const { data } = await axios.post(

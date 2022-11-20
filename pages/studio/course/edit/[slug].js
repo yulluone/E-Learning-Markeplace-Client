@@ -26,6 +26,7 @@ const CourseEdit = () => {
   const [image, setImage] = useState({});
   const [preview, setPreview] = useState("");
   const [uploadButtonText, setUploadButtonText] = useState("Change Image");
+  const [instructorId, setInstructorId] = useState("");
   const { slug } = router.query;
 
   //states for updating lessons
@@ -42,7 +43,52 @@ const CourseEdit = () => {
   const [progress, setProgress] = useState(0);
 
   const handleVideo = async (e) => {
-    console.log("handleVideo");
+    try {
+      setUploading(true);
+      const file = e.target.files[0];
+      setUploadVideoButtonText(file.name);
+
+      //remove current video
+      if (current.video && current.video.Location) {
+        const res = await axios.post(
+          `/instructor/course/video-remove/${instructorId}`,
+          {
+            video: current.video,
+          }
+        );
+        console.log("VIDEO DELETE RES", res);
+      }
+      //upload video
+
+      //send videoData to back end
+      const videoData = new FormData();
+      videoData.append("video", file);
+      videoData.append("courseId", current._id);
+
+      // save progress bar and send video as form data to backend
+      const { data } = await axios.post(
+        `/instructor/course/video-upload/${instructorId}`,
+        videoData,
+        {
+          onUploadProgress: (e) => {
+            setProgress(Math.round((100 * e.loaded) / e.total));
+          },
+        }
+      );
+
+      //once response is received
+      console.log(data);
+
+      setCurrent({
+        ...current,
+        video: data,
+      });
+      setUploading(false);
+    } catch (err) {
+					console.log(err);
+					toast("Video upload failed");
+    }
+    //remove current video
   };
 
   const handleUpdateLesson = async (e) => {
@@ -66,6 +112,7 @@ const CourseEdit = () => {
         paid: data.paid,
         lessons: data.lessons,
       });
+      setInstructorId(data.instructor);
       setImage(data.image);
     } catch (err) {
       console.log(err);

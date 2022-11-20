@@ -58,7 +58,7 @@ const UpdateLessonForm = ({
 
       <div className="d-flex justify-content-center">
         <label className="btn btn-dark btn-block text-lft mt-3">
-          {uploadVideoButtonText}
+          {current.video ? "Replace Current Video" : uploadVideoButtonText }
           <input type="file" accept="video/*" hidden onChange={handleVideo} />
         </label>
       </div>
