@@ -5,7 +5,9 @@ import CourseCreateForm from "../../../../components/forms/CourseCreateForm";
 import Resizer from "react-image-file-resizer";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { List, Avatar } from "antd";
+import { List, Avatar, Modal } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
+import UpdateLessonForm from "../../../../components/forms/UpdateLessonForm";
 
 const { Item } = List;
 
@@ -25,6 +27,27 @@ const CourseEdit = () => {
   const [preview, setPreview] = useState("");
   const [uploadButtonText, setUploadButtonText] = useState("Change Image");
   const { slug } = router.query;
+
+  //states for updating lessons
+  const [visible, setVisible] = useState(false);
+  const [current, setCurrent] = useState({});
+
+  /**
+   * states and functions for updating lessons
+   */
+
+  const [uploadVideoButtonText, setUploadVideoButtonText] =
+    useState("UploadVideo");
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const handleVideo = async (e) => {
+    console.log("handleVideo");
+  };
+
+  const handleUpdateLesson = async (e) => {
+    conosle.log("handleUpdateLesson");
+  };
 
   useEffect(() => {
     loadCourse();
@@ -126,8 +149,7 @@ const CourseEdit = () => {
   const handleDrag = (e, index) => {
     // console.log("DRAGING INDEX =>	", index);
     e.dataTransfer.setData("itemIndex", index);
-	};
-	
+  };
 
   const handleDrop = async (e, index) => {
     // console.log("DROPPED AT INDEX => ", index);
@@ -139,14 +161,34 @@ const CourseEdit = () => {
     allLessons.splice(itemIndex, 1); //remove dragged	item from its original position
     allLessons.splice(dropPosition, 0, item); //insert dragged item in new position
 
-			setValues({ ...values, lessons: allLessons }); //update lessons arrar in state
-			
-			//save lesson rearraangement in db
-			const { data } = await axios.put(`/instructor/course/edit/${slug}`, {
-        ...values,
-        image,
-			});
-			toast("Great! Lessons rearranged");
+    setValues({ ...values, lessons: allLessons }); //update lessons arrar in state
+
+    //save lesson rearraangement in db
+    const { data } = await axios.put(`/instructor/course/edit/${slug}`, {
+      ...values,
+      image,
+    });
+    toast("Great! Lessons rearranged");
+  };
+
+  const handleLessonDelete = async (index) => {
+    // console.log("DELETE LESSON AT INDEX => ", index);
+    const answer = window.confirm(
+      "Are you sure you want to delete this lesson?"
+    );
+    if (!answer) return;
+    let allLessons = values.lessons;
+    const deleted = allLessons.splice(index, 1);
+    setValues({ ...values, lessons: allLessons }); // upldate lessons array in state
+    //send delete lesson request to db
+    const { data } = await axios.put(
+      `/instructor/course/delete/${slug}/${deleted[0]._id}`,
+      {
+        _id: deleted[0]._id,
+      }
+    );
+    console.log("LESSON DELETED => ", data);
+    toast("Great! Lesson deleted");
   };
 
   return (
@@ -184,14 +226,44 @@ const CourseEdit = () => {
                 onDrop={(e) => handleDrop(e, index)}
               >
                 <Item.Meta
-                  avatar={<Avatar>{index}</Avatar>}
+                  avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
+                  onClick={() => {
+                    setVisible(true);
+                    setCurrent(item);
+                  }}
                 ></Item.Meta>
+
+                <DeleteOutlined
+                  onClick={() => handleLessonDelete(index)}
+                  className=" text-danger float-right"
+                />
               </Item>
             )}
           ></List>
         </div>
       </div>
+
+      <Modal
+        title="Update Lesson"
+        centered
+        visible={visible}
+        onCancel={() => {
+          setVisible(false);
+        }}
+        footer={null}
+      >
+        <UpdateLessonForm
+          current={current}
+          setCurrent={setCurrent}
+          handleVideo={handleVideo}
+          handleUpdateLesson={handleUpdateLesson}
+          uploading={uploading}
+          progress={progress}
+          uploadVideoButtonText={uploadVideoButtonText}
+        />
+        {/* <pre>{JSON.stringify(current, null, 4)}</pre> */}
+      </Modal>
     </InstructorRoute>
   );
 };
