@@ -1,5 +1,6 @@
-import { Button, Progress, Tooltip } from "antd";
+import { Button, Progress, Switch } from "antd";
 import { CloseCircleFilled } from "@ant-design/icons";
+import ReactPlayer from "react-player";
 
 const UpdateLessonForm = ({
   current,
@@ -12,6 +13,7 @@ const UpdateLessonForm = ({
 }) => {
   return (
     <div className="container pt-3">
+      <pre>{JSON.stringify(current)}</pre>
       <form onSubmit={handleUpdateLesson}>
         <input
           type="text"
@@ -31,20 +33,36 @@ const UpdateLessonForm = ({
           placeholder="Content"
         ></textarea>
       </form>
-      <div className="d-flex justify-content-between">
-        <span className="pt-3 badge">preview toggle</span>
-      </div>
-      {current.video && current.video.Location && (
-        <div className="pt-2 d-flex justify-content-center">
-          show video player on react player
+
+      {!uploading && current.video && current.video.Location && (
+        <div className="pt-2 d-flex justify-content-center ">
+          <ReactPlayer
+            url={current.video.Location}
+            width="410 px"
+            height="240px"
+            controls
+          />
         </div>
       )}
+
+      <div >
+        <span className="pt-3 badge">preview toggle</span>
+        <Switch
+          className="float-right mt-2"
+          disabled={uploading}
+          defaultChecked={current.free_preview}
+          name="free_preview"
+          onChange={(v) => setCurrent({ ...current, free_preview: v })}
+        />
+      </div>
+
       <div className="d-flex justify-content-center">
         <label className="btn btn-dark btn-block text-lft mt-3">
           {uploadVideoButtonText}
           <input type="file" accept="video/*" hidden onChange={handleVideo} />
         </label>
       </div>
+
       {progress > 0 && (
         <Progress
           className="d-flex justify-content-center"
