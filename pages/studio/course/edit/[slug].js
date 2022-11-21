@@ -85,14 +85,38 @@ const CourseEdit = () => {
       });
       setUploading(false);
     } catch (err) {
-					console.log(err);
-					toast("Video upload failed");
+      console.log(err);
+      toast("Video upload failed");
     }
     //remove current video
   };
 
   const handleUpdateLesson = async (e) => {
-    conosle.log("handleUpdateLesson");
+    // conosle.log("handleUpdateLesson");
+
+    try {
+      e.preventDefault();
+      setUploading(true);
+
+      const { data } = await axios.put(
+        `/instructor/course/lesson-update/${slug}/${current._id}`,
+        current
+      );
+      console.log("LESSON UPDATE RES", data);
+      if (data.ok) {
+        await loadCourse();
+      }
+      setUploadVideoButtonText("Upload Video");
+      setUploading(false);
+      setVisible(false);
+      toast("Lesson updated");
+
+      
+    } catch (err) {
+      setUploading(false);
+      toast("Lesson update failed");
+      console.log(err);
+    }
   };
 
   useEffect(() => {
