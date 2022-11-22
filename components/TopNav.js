@@ -10,6 +10,7 @@ import {
   CarryOutOutlined,
   VideoCameraOutlined,
   VideoCameraAddOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -51,16 +52,6 @@ const TopNav = () => {
         <Link href="/">Home</Link>
       </Item>
 
-      {user !== null && user.role && !user.role.includes("Instructor") && (
-        <Item
-          key="/studio/become-instructor"
-          onClick={(e) => setCurrent(e.key)}
-          icon={<TeamOutlined />}
-        >
-          <Link href="/studio/become-instructor">Become Instructor</Link>
-        </Item>
-      )}
-
       {user === null && (
         <>
           <Item
@@ -98,6 +89,16 @@ const TopNav = () => {
             </Item>
           </ItemGroup>
         </SubMenu>
+      )}
+      {user !== null && user.role && !user.role.includes("Instructor") && (
+        <Item
+          key="/studio/become-instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+          className="float-right"
+        >
+          <Link href="/studio/become-instructor">Become Instructor</Link>
+        </Item>
       )}
 
       {user !== null && user.role && user.role.includes("Instructor") && (

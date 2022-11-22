@@ -35,8 +35,8 @@ const BecomeInstructor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    axios
-      .post("/studio/make-instructor", {
+    await axios
+      .post("/instructor/make-instructor", {
         mpesaNumber,
         mpesaName,
       })
@@ -104,6 +104,7 @@ const BecomeInstructor = () => {
                   type="submit"
                   className="btn btn-block btn-primary"
                   disabled={mpesaNumber.length !== 12}
+                  onClick={handleSubmit}
                 >
                   {loading ? <SyncOutlined spin /> : "Submit"}
                 </button>
