@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState, useContext } from "react";
 import InstructorRoute from "../../components/routes/InstructorRoute";
-import { Avatar } from "antd";
+import { Avatar, Tooltip } from "antd";
 import Link from "next/link";
 import { Context } from "../../context";
 
@@ -85,13 +85,13 @@ const InstructorIndex = () => {
                   </div>
                   <div className="col-md-3 mt-3 text-center">
                     {course.published ? (
-                      <div>
+                      <Tooltip title="Published"  >
                         <CheckCircleOutlined className="h5 pointer text-success " />
-                      </div>
+                      </Tooltip >
                     ) : (
-                      <div className="h5 pointer text-warning">
-                        <CloseCircleOutlined />
-                      </div>
+                      <Tooltip title="Unpublished" >
+                        <CloseCircleOutlined className="h5 pointer text-warning" />
+                      </Tooltip >
                     )}
                   </div>
                 </div>

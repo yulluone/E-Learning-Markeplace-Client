@@ -3,7 +3,13 @@ import { useRouter } from "next/router";
 import InstructorRoute from "../../../../components/routes/InstructorRoute";
 import axios from "axios";
 import { Avatar, Tooltip, Button, Modal, List } from "antd";
-import { CheckOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  EditOutlined,
+  UploadOutlined,
+  QuestionOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import AddLessonForm from "../../../../components/forms/AddLessonForm";
 import { toast } from "react-toastify";
@@ -114,6 +120,45 @@ const CourseView = () => {
     }
   };
 
+  const handlePublishCourse = async () => {
+    try {
+      let answer = window.confirm(
+        "Are you sure you to take your course live? Once published, this course will be available in the market place for students to enroll."
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(
+        `/instructor/course/publish-course/${course._id}`
+      );
+      console.log(data);
+      toast("Congrats! Course is now live	in the marketplace");
+      setCourse(data);
+    } catch (err) {
+      console.log(err);
+      toast("Attempt to publish course failed. Try again.");
+    }
+  };
+
+  const handleUnpublishCourse = async () => {
+    try {
+      let answer = window.confirm(
+        " Are you sure you want to unpublish course? Once unpulished, this course will no longer be availablein the marketplace for students to enroll."
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(
+        `/instructor/course/unpublish-course/${course._id}`
+      );
+      console.log(data);
+      toast("Course unpublished");
+
+      setCourse(data);
+    } catch (err) {
+      console.log(err);
+      toast("Attempt to unpublish course failed. Try again.");
+    }
+  };
+
   useEffect(() => {
     loadCourse();
   }, [slug]);
@@ -121,7 +166,7 @@ const CourseView = () => {
   return (
     <InstructorRoute>
       <div className="container-fluid pt-3">
-        {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
+    
         {course && (
           <div className="container-fluid pt-1">
             <div className="media pt-2">
@@ -154,9 +199,26 @@ const CourseView = () => {
                         className="h5 pointer text-warning mr-4"
                       />
                     </Tooltip>
-                    <Tooltip title="Publish">
-                      <CheckOutlined className="h5 pointer text-danger mr-4" />
-                    </Tooltip>
+
+                    {course.lessons && course.lessons.length < 5 ? (
+                      <Tooltip title="Atleast 5 lessons needed to publish">
+                        <QuestionOutlined className="h5 pointer text-warning" />
+                      </Tooltip>
+                    ) : course.published ? (
+                      <Tooltip title="Unpublish">
+                        <CloseOutlined
+                          className="h5 pointer text-danger"
+                          onClick={handleUnpublishCourse}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="Publish">
+                        <CheckOutlined
+                          className="h5 pointer text-success mr-4"
+                          onClick={handlePublishCourse}
+                        />
+                      </Tooltip>
+                    )}
                   </div>
                 </div>
               </div>
@@ -210,7 +272,7 @@ const CourseView = () => {
                   renderItem={(item, index) => (
                     <Item>
                       <Item.Meta
-                        avatar={<Avatar>{index}</Avatar>}
+                        avatar={<Avatar>{index + 1}</Avatar>}
                         title={item.title}
                       ></Item.Meta>
                     </Item>

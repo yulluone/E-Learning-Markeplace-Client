@@ -110,8 +110,6 @@ const CourseEdit = () => {
       setUploading(false);
       setVisible(false);
       toast("Lesson updated");
-
-      
     } catch (err) {
       setUploading(false);
       toast("Lesson update failed");
@@ -264,7 +262,7 @@ const CourseEdit = () => {
 
   return (
     <InstructorRoute>
-      <h1 className=" jumbotron text-center square ">Create New Course</h1>
+      <h1 className=" jumbotron text-center square ">Update Course</h1>
       <div className="pt-3 pb-3">
         <CourseCreateForm
           handleSubmit={handleSubmit}
@@ -279,9 +277,7 @@ const CourseEdit = () => {
           image={image}
         />
       </div>
-      {/* <pre>{JSON.stringify(values, null, 4)}</pre>
-      <hr />
-      <pre>{JSON.stringify(image, null, 4)}</pre> */}
+
       <hr />
       <div className="row pb-5">
         <div className="col lesson-list">
@@ -333,7 +329,6 @@ const CourseEdit = () => {
           progress={progress}
           uploadVideoButtonText={uploadVideoButtonText}
         />
-        {/* <pre>{JSON.stringify(current, null, 4)}</pre> */}
       </Modal>
     </InstructorRoute>
   );

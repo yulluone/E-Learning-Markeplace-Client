@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { Menu } from "antd";
+import { Menu, Tooltip } from "antd";
 import Link from "next/link";
 import {
   AppstoreOutlined,
@@ -8,7 +8,8 @@ import {
   LoginOutlined,
   UserAddOutlined,
   CarryOutOutlined,
-  TeamOutlined,
+  VideoCameraOutlined,
+  VideoCameraAddOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -50,16 +51,6 @@ const TopNav = () => {
         <Link href="/">Home</Link>
       </Item>
 
-      {user !== null && user.role && user.role.includes("Instructor") && (
-        <Item
-          key="/studio/course/create"
-          onClick={(e) => setCurrent(e.key)}
-          icon={<CarryOutOutlined />}
-        >
-          <Link href="/studio/course/create">Create Course</Link>
-        </Item>
-      )}
-
       {user !== null && user.role && !user.role.includes("Instructor") && (
         <Item
           key="/studio/become-instructor"
@@ -92,17 +83,6 @@ const TopNav = () => {
         </>
       )}
 
-      {user !== null && user.role && user.role.includes("Instructor") && (
-        <Item
-          key="/studio"
-          onClick={(e) => setCurrent(e.key)}
-          icon={<TeamOutlined />}
-          className=""
-        >
-          <Link href="/studio">Instructor</Link>
-        </Item>
-      )}
-
       {user !== null && (
         <SubMenu
           icon={<CoffeeOutlined />}
@@ -118,6 +98,32 @@ const TopNav = () => {
             </Item>
           </ItemGroup>
         </SubMenu>
+      )}
+
+      {user !== null && user.role && user.role.includes("Instructor") && (
+        <Item
+          key="/studio/course/create"
+          onClick={(e) => setCurrent(e.key)}
+          // icon={<CarryOutOutlined />}
+          className="float-right "
+        >
+          <Tooltip title="Create New Course">
+            <Link href="/studio/course/create">
+              <VideoCameraAddOutlined />
+            </Link>
+          </Tooltip>
+        </Item>
+      )}
+
+      {user !== null && user.role && user.role.includes("Instructor") && (
+        <Item
+          key="/studio"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<VideoCameraOutlined />}
+          className="float-right"
+        >
+          <Link href="/studio">Studio</Link>
+        </Item>
       )}
     </Menu>
   );
