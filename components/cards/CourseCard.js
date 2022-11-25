@@ -17,11 +17,15 @@ const CourseCard = ({ course }) => {
           <img
             src={`https://ipfs.filebase.io/ipfs/${image.cid}`}
             alt={name}
-            style={{ height: "250px", objectFit: "cover" }}
+										style={{
+              height: "250px",
+              objectFit: "cover",
+              borderRadius: "20px",
+            }}
             className="p-1"
           />
         }
-        style={{ width: 300 }}
+        style={{ width: 300, borderRadius: "20px" }}
       >
         {/* <h2 className="font-weight-bold">{name}</h2> */}
         <Meta

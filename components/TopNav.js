@@ -49,7 +49,7 @@ const TopNav = () => {
         onClick={(e) => setCurrent(e.key)}
         icon={<AppstoreOutlined />}
       >
-        <Link href="/">Home</Link>
+        <Link href="/">Market</Link>
       </Item>
 
       {user === null && (
