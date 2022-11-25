@@ -1,8 +1,20 @@
 import ReactMarkdown from "react-markdown";
 import { Badge, Button } from "antd";
 import ReactPlayer from "react-player";
+import { LoadingOutlined } from "@ant-design/icons";
 
-const SingleCourseJumbotron = ({ course, showModal, setShowModal, setPreview }) => {
+const SingleCourseJumbotron = ({
+  course,
+  showModal,
+  setShowModal,
+  setPreview,
+  handleFreeEnrollment,
+  handlePaidEnrollment,
+  loading,
+  user,
+  preview,
+  enrolled,
+}) => {
   const {
     name,
     description,
@@ -13,9 +25,6 @@ const SingleCourseJumbotron = ({ course, showModal, setShowModal, setPreview }) 
     instructor,
     price,
     updatedAt,
-    preview,
-    handleFreeEnrollment,
-    handlePaidEnrollment,
   } = course;
 
   return (
@@ -51,10 +60,12 @@ const SingleCourseJumbotron = ({ course, showModal, setShowModal, setPreview }) 
 
         <div className="col-md-4">
           {lessons && lessons[0].video && lessons[0].video.Location ? (
-							<div onClick={() => {
-								setPreview(lessons[0].video.Location);
-								setShowModal(!showModal);
-												}}>
+            <div
+              onClick={() => {
+                setPreview(lessons[0].video.Location);
+                setShowModal(!showModal);
+              }}
+            >
               <ReactPlayer
                 className="react-player-dv"
                 url={lessons[0].video.Location}
@@ -71,10 +82,27 @@ const SingleCourseJumbotron = ({ course, showModal, setShowModal, setPreview }) 
                 style={{ objectFit: "cover", height: "300px" }}
               />
             </>
-						)}
-						{/* Enrollemnt Button */}
-
-          <Button className="mt-3 mb-3 " size="large" onClick={handleFreeEnrollment}>Enroll</Button>
+          )}
+          {/* Enrollemnt Button */}
+          {loading ? (
+            <div className="d-flex justify-content-center">
+              <LoadingOutlined className="h1 text-danger mt-3 mb-3" />
+            </div>
+          ) : (
+            <Button
+              className="mb-3 mt-3"
+              shape="round"
+              block
+              type="danger"
+              onClick={paid ? handlePaidEnrollment : handleFreeEnrollment}
+            >
+              {user
+                ? enrolled
+                  ? "Continue to course page"
+                  : "Enroll"
+                : "Login to enroll"}
+            </Button>
+          )}
         </div>
       </div>
     </div>
