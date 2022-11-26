@@ -1,7 +1,7 @@
 import ReactMarkdown from "react-markdown";
-import { Badge, Button } from "antd";
+import { Badge, Button, Tooltip } from "antd";
 import ReactPlayer from "react-player";
-import { LoadingOutlined } from "@ant-design/icons";
+import { LoadingOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 
 const SingleCourseJumbotron = ({
   course,
@@ -14,6 +14,8 @@ const SingleCourseJumbotron = ({
   user,
   preview,
   enrolled,
+  setMpesaNumber,
+  mpesaNumber,
 }) => {
   const {
     name,
@@ -83,6 +85,31 @@ const SingleCourseJumbotron = ({
               />
             </>
           )}
+          {/* Mpesa Number */}
+          {paid && !enrolled && (
+            <div className="mt-4">
+              {/* <span>Enter Mpesa Number</span> */}
+
+              <small className="lead text-warning" style={{ fontSize: "12px" }}>
+                {mpesaNumber &&
+                  mpesaNumber.length !== 12 &&
+                  "Use format (2547********)"}
+              </small>
+              <div class="d-flex align-items-center">
+                <input
+                  type="number"
+                  className="form-control mb-3 mt-2 p-4 "
+                  value={mpesaNumber}
+                  onChange={(e) => setMpesaNumber(e.target.value)}
+                  placeholder="Enter M-PESA Number"
+                  required
+                />
+                <Tooltip title="A payment prompt will be send to the phone number you provide. ">
+                  <QuestionCircleOutlined className="ml-3 h4 text-primary" />
+                </Tooltip>
+              </div>
+            </div>
+          )}
           {/* Enrollemnt Button */}
           {loading ? (
             <div className="d-flex justify-content-center">
@@ -94,7 +121,9 @@ const SingleCourseJumbotron = ({
               shape="round"
               block
               type="danger"
+              size="large"
               onClick={paid ? handlePaidEnrollment : handleFreeEnrollment}
+              disabled={mpesaNumber && mpesaNumber.length !== 12}
             >
               {user
                 ? enrolled

@@ -73,7 +73,7 @@ const CourseCreateForm = ({
         {values.paid && (
           <div className="form-group">
             <Select
-              defaultValue="Ksh 999"
+              defaultValue="Ksh 9"
               style={{ width: "100%" }}
               size="large"
               onChange={(v) => setValues({ ...values, price: v })}

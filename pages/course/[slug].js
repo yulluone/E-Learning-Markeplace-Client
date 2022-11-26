@@ -21,6 +21,7 @@ const SingleCourse = () => {
   const [preview, setPreview] = useState("");
   const [loading, setLoading] = useState(false);
   const [enrolled, setEnrolled] = useState(false);
+  const [mpesaNumber, setMpesaNumber] = useState("");
 
   useEffect(() => {
     fetchCourse();
@@ -69,7 +70,27 @@ const SingleCourse = () => {
   };
 
   const handlePaidEnrollment = async () => {
-    console.log("paidEnrollment");
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `/auth/paid-enrollment/${course.slug}`,
+        {
+          mpesaNumber,
+          price: course.price,
+        }
+      );
+      console.log(data);
+      const result = window.confirm(
+        `${data}	Click OK after receiving confirmation message.`
+      );
+      setLoading(false);
+      if (!result) return;
+      router.reload();
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+      toast("Enrollment attempt failed. Try again.");
+    }
   };
 
   return (
@@ -84,6 +105,8 @@ const SingleCourse = () => {
         loading={loading}
         user={user}
         enrolled={enrolled}
+        setMpesaNumber={setMpesaNumber}
+        mpesaNumber={mpesaNumber}
       />
       {/* <pre>{JSON.stringify(course, null, 4)}</pre> */}
       <SingleCourseLessons
