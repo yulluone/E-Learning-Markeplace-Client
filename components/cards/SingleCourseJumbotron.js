@@ -39,9 +39,9 @@ const SingleCourseJumbotron = ({
 
           <p
             className="lead text-light"
-            // style={{ fontSize: "20px" }}
+            style={{ fontSize: "18px" }}
           >
-            {description && description.substring(0, 160) + " ..."}
+            {description && description.substring(0, 320) + " ..."}
           </p>
           {/* category */}
           <Badge
@@ -86,7 +86,7 @@ const SingleCourseJumbotron = ({
             </>
           )}
           {/* Mpesa Number */}
-          {paid && !enrolled && (
+          {user && paid && !enrolled && (
             <div className="mt-4">
               {/* <span>Enter Mpesa Number</span> */}
 
@@ -117,7 +117,7 @@ const SingleCourseJumbotron = ({
             </div>
           ) : (
             <Button
-              className="mb-3 mt-3"
+              className=" mt-3"
               shape="round"
               block
               type="danger"

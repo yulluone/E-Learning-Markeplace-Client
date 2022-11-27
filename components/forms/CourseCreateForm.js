@@ -16,7 +16,7 @@ const CourseCreateForm = ({
   image,
 }) => {
   const children = [];
-  for (let i = 999; i <= 9999; i += 200) {
+  for (let i = 1; i <= 9; ++i) {
     children.push(<Option key={i.toFixed(2)}>Ksh {i.toFixed(2)}</Option>);
   }
 
