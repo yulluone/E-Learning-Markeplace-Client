@@ -71,6 +71,8 @@ const SingleCourse = () => {
 
   const handlePaidEnrollment = async () => {
     try {
+      if (enrolled) return router.push(`/user/course/${course.slug}`);
+
       setLoading(true);
       const { data } = await axios.post(
         `/auth/paid-enrollment/${course.slug}`,
