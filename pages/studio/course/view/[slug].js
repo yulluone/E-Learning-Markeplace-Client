@@ -9,6 +9,7 @@ import {
   UploadOutlined,
   QuestionOutlined,
   CloseOutlined,
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import ReactMarkdown from "react-markdown";
 import AddLessonForm from "../../../../components/forms/AddLessonForm";
@@ -28,7 +29,35 @@ const CourseView = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadButtonText, setUploadButtonText] = useState("Upload Video");
   const [progress, setProgress] = useState(0);
-  //Funcions for add lessson
+  const [students, setStudents] = useState([]);
+
+  //load course data
+  useEffect(() => {
+    loadCourse();
+  }, [slug]);
+
+  //load Student count
+
+  useEffect(() => {
+    course && loadStudentCount();
+  }, [course]);
+
+  //load students handler
+  const loadStudentCount = async () => {
+    try {
+      const { data } = await axios.post(`/instructor/student-count`, {
+        courseId: course._id,
+        instructorId: course.instructor._id,
+      });
+      setStudents(data);
+      console.log(data);
+      console.log("STUDENTS ENROLLED => ", students);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // add lessson
 
   const handleAddLesson = async (e) => {
     e.preventDefault();
@@ -159,14 +188,9 @@ const CourseView = () => {
     }
   };
 
-  useEffect(() => {
-    loadCourse();
-  }, [slug]);
-
   return (
     <InstructorRoute>
       <div className="container-fluid pt-3">
-    
         {course && (
           <div className="container-fluid pt-1">
             <div className="media pt-2">
@@ -191,6 +215,14 @@ const CourseView = () => {
                     </p>
                   </div>
                   <div className="d-flex pt-4">
+                    <Tooltip
+                      title={`${students.length} students enrolled`}
+                      className="d-flex mr-4"
+                      // style={{ alighItems: "start" }}
+                    >
+                      <UserSwitchOutlined className="h5 pointer text-info" />{" "}
+                      <b className="h5 text-info" style={{marginTop: "-2px"}}>{students.length}</b>
+                    </Tooltip>
                     <Tooltip title="Edit">
                       <EditOutlined
                         onClick={() => {
