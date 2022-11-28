@@ -14,6 +14,7 @@ import {
 const { Item } = Menu;
 
 const UserCourseView = () => {
+  //slug
   const router = useRouter();
   const { slug } = router.query;
 
@@ -23,7 +24,7 @@ const UserCourseView = () => {
   const [clicked, setClicked] = useState(-1);
   const [collapsed, setCollapsed] = useState(false);
 
-  //populate course && page
+  //populate course
   useEffect(() => {
     if (!slug) return;
     loadCourse();
@@ -31,10 +32,26 @@ const UserCourseView = () => {
 
   const loadCourse = async () => {
     const { data } = await axios.get(`/auth/course/${slug}`);
+    if (!data.enrolled) {
+      router.push("/");
+      return;
+    }
+
     setCourse(data.course);
   };
 
   //handlers
+  const markCompleted = async () => {
+    try {
+      const { data } = await axios.post(`/auth/course-completed`, {
+        courseId: course._id,
+        lessonId: course.lessons[clicked]._id,
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <StudentRoute>
@@ -53,10 +70,9 @@ const UserCourseView = () => {
             inlineCollapsed={collapsed}
             style={{ height: "80vh", overflow: "hidden" }}
           >
-            <Item
-              icon={<Avatar>Zero</Avatar>}
-              onClick={() => setClicked(-1)}
-            >Course Description</Item>
+            <Item icon={<Avatar>Zero</Avatar>} onClick={() => setClicked(-1)}>
+              Course Description
+            </Item>
             {course.lessons.map((lesson, index) => (
               <Item
                 icon={<Avatar>{index + 1}</Avatar>}
@@ -71,6 +87,18 @@ const UserCourseView = () => {
         <div className="col">
           {clicked > -1 ? (
             <>
+              <div className="col alert alert-primary square">
+                <b>
+                  {clicked + 1} {" > "}
+                  {course.lessons[clicked].title}
+                </b>
+                <span
+                  className="float-right pointer text-primary "
+                  onClick={markCompleted}
+                >
+                  Mark Completed
+                </span>
+              </div>
               {course.lessons[clicked].video &&
                 course.lessons[clicked].video.Location && (
                   <>
@@ -95,7 +123,7 @@ const UserCourseView = () => {
                   <PlayCircleOutlined
                     className="text-primary display-1 p-5"
                     onClick={() => {
-                      setClicked(1);
+                      setClicked(0);
                     }}
                   />
                 </div>

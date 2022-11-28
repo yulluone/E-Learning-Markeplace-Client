@@ -29,6 +29,8 @@ const UserIndex = () => {
     loadCourses();
   }, []);
 
+  
+
   return (
     <UserRoute>
       {loading ? (

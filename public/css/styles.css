@@ -1,9 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap");
 
-
 body {
   font-family: "Montserrat", sans-serif;
-  ;
 }
 * {
   margin: 0;
@@ -15,4 +13,8 @@ body {
 .jumbotron {
   background-image: linear-gradient(to right, #007bff, #000);
   color: #fff;
+}
+
+.pointer {
+  cursor: pointer;
 }
