@@ -23,12 +23,18 @@ const UserCourseView = () => {
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(-1);
   const [collapsed, setCollapsed] = useState(false);
+  const [completedLessons, setCompletedLessons] = useState([]);
 
   //populate course
   useEffect(() => {
     if (!slug) return;
     loadCourse();
   }, [slug]);
+
+  useEffect(() => {
+    if (!course) return;
+    loadCompletedLessons();
+  }, [course]);
 
   const loadCourse = async () => {
     const { data } = await axios.get(`/auth/course/${slug}`);
@@ -40,14 +46,23 @@ const UserCourseView = () => {
     setCourse(data.course);
   };
 
+  const loadCompletedLessons = async () => {
+    const { data } = await axios.post(`/auth/completed-lessons`, {
+      courseId: course._id,
+    });
+    setCompletedLessons(data);
+    // console.log(data);
+    console.log(completedLessons);
+  };
   //handlers
   const markCompleted = async () => {
     try {
-      const { data } = await axios.post(`/auth/course-completed`, {
+      const { data } = await axios.post(`/auth/mark-completed`, {
         courseId: course._id,
         lessonId: course.lessons[clicked]._id,
       });
-      console.log(data);
+      // console.log(data);
+      setLessonComplete(true);
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +111,9 @@ const UserCourseView = () => {
                   className="float-right pointer text-primary "
                   onClick={markCompleted}
                 >
-                  Mark Completed
+                  {/* {lessonComplete ? "Mark as uncomplete" : "Mark as completed"}
+                   */}
+                  Mark as completed
                 </span>
               </div>
               {course.lessons[clicked].video &&
