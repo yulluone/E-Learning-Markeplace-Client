@@ -11,6 +11,7 @@ import {
   VideoCameraOutlined,
   VideoCameraAddOutlined,
   TeamOutlined,
+  DollarCircleOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -101,30 +102,48 @@ const TopNav = () => {
         </Item>
       )}
 
-      {user !== null && user.role && user.role.includes("Instructor") && (
-        <Item
-          key="/studio/course/create"
-          onClick={(e) => setCurrent(e.key)}
-          // icon={<CarryOutOutlined />}
-          className="float-right "
-        >
-          <Tooltip title="Create New Course">
-            <Link href="/studio/course/create">
-              <VideoCameraAddOutlined />
-            </Link>
-          </Tooltip>
-        </Item>
-      )}
+      {/* {user !== null && user.role && user.role.includes("Instructor") && (
+        
+      )} */}
 
       {user !== null && user.role && user.role.includes("Instructor") && (
-        <Item
-          key="/studio"
-          onClick={(e) => setCurrent(e.key)}
-          icon={<VideoCameraOutlined />}
-          className="float-right"
-        >
-          <Link href="/studio">Studio</Link>
-        </Item>
+        <>
+          <Item
+            key="/studio/revenue"
+            onClick={(e) => setCurrent(e.key)}
+            className="float-right"
+          >
+            <Tooltip title="Revenue">
+              <Link href="/studio/revenue"></Link>
+              <DollarCircleOutlined
+                className=" text-success"
+                style={{ fontSize: "23px", marginTop: "-10px" }}
+              />
+            </Tooltip>
+          </Item>
+
+          <Item
+            key="/studio/course/create"
+            onClick={(e) => setCurrent(e.key)}
+            // icon={<CarryOutOutlined />}
+            className="float-right "
+          >
+            <Tooltip title="Create New Course">
+              <Link href="/studio/course/create">
+                <VideoCameraAddOutlined />
+              </Link>
+            </Tooltip>
+          </Item>
+
+          <Item
+            key="/studio"
+            onClick={(e) => setCurrent(e.key)}
+            icon={<VideoCameraOutlined />}
+            className="float-right"
+          >
+            <Link href="/studio">Studio</Link>
+          </Item>
+        </>
       )}
     </Menu>
   );
