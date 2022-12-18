@@ -16,7 +16,7 @@ const UserIndex = () => {
   const loadCourses = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/auth/user-courses");
+      const { data } = await axios.post("/auth/user-courses");
       setCourses(data);
       setLoading(false);
     } catch (err) {
@@ -28,8 +28,6 @@ const UserIndex = () => {
   useEffect(() => {
     loadCourses();
   }, []);
-
-  
 
   return (
     <UserRoute>
